@@ -1,6 +1,8 @@
 package com.example.motoinventoryservice.controller;
 
+import com.example.motoinventoryservice.dao.MotoInventoryDao;
 import com.example.motoinventoryservice.model.Motorcycle;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.annotation.RequestScope;
@@ -15,14 +17,13 @@ import java.util.Random;
 @RefreshScope
 public class MotoInventoryController {
 
+    @Autowired
+    MotoInventoryDao motoInventoryDao;
+
     @RequestMapping(value = "/motorcycles", method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.CREATED)
     public Motorcycle createMotorcycle(@RequestBody @Valid Motorcycle motorcycle) {
-        Random rnd = new Random();
-
-        motorcycle.setId(rnd.nextInt(9999));
-
-        return motorcycle;
+        return motoInventoryDao.addMotorcycle(motorcycle);
     }
 
     @RequestMapping(value = "/motorcycles/{motoId}", method = RequestMethod.GET)
@@ -31,16 +32,7 @@ public class MotoInventoryController {
         if (motoId < 1) {
            throw new IllegalArgumentException("MotoId must be greater than 0.");
         }
-
-        Motorcycle moto = new Motorcycle();
-        moto.setId(motoId);
-        moto.setVin("54321");
-        moto.setMake("Ducati");
-        moto.setModel("Multistrada Enduro");
-        moto.setYear("2018");
-        moto.setColor("Red");
-
-        return moto;
+        return motoInventoryDao.getMotorcycle(motoId);
     }
 
     @RequestMapping(value = "/motorcycles/{motoId}", method = RequestMethod.DELETE)
@@ -63,9 +55,9 @@ public class MotoInventoryController {
     }
 
 
-    @RequestMapping(value = "/vehicle/{vin}", method = RequestMethod.GET)
-    @ResponseStatus(value = HttpStatus.OK)
-    public Map<String, Motorcycle> getVehicleByVin(@PathVariable String vin) {
-        HashMap<String, String>
-    }
+//    @RequestMapping(value = "/vehicle/{vin}", method = RequestMethod.GET)
+//    @ResponseStatus(value = HttpStatus.OK)
+//    public Map<String, Motorcycle> getVehicleByVin(@PathVariable String vin) {
+//        HashMap<String, String>
+//    }
 }
