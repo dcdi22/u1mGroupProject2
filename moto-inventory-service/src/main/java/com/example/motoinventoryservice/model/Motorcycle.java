@@ -6,18 +6,30 @@ import java.util.Objects;
 
 public class Motorcycle {
 
+    /*
+    id int not null auto_increment primary key,
+    vin varchar(20) not null,
+    make varchar(20) not null,
+    model varchar(20) not null,
+    year varchar(4) not null,
+    color varchar(20) not null
+     */
+
     private int id;
     @NotEmpty(message = "You must supply a value for VIN.")
-    @Size(min = 5, max = 5, message = "VIN must be 5 characters in length.")
+    @Size(min = 5, max = 20, message = "VIN must be 5 characters in length.")
     private String vin;
     @NotEmpty(message = "You must supply a value for make.")
+    @Size(min = 1, max = 20)
     private String make;
     @NotEmpty(message = "You must supply a value for model.")
+    @Size(min = 1, max = 20)
     private String model;
     @NotEmpty(message = "You must supply a value for year.")
     @Size(min = 4, max = 4, message = "Year must be 4 digits.")
     private String year;
     @NotEmpty(message = "You must supply a value for color.")
+    @Size(min = 1, max = 20)
     private String color;
 
     public int getId() {
